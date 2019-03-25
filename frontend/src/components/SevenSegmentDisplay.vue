@@ -1,11 +1,19 @@
 <template>
   <div>
-    <div v-bind:id="idLetter" class="seven-segment">
+    <div v-bind:id="idDecimalLetter" class="seven-segment">
       <div class="upper"></div>
       <div class="lower"></div> 
     </div>
-    {{id}} {{idLetter}}
+    <div v-bind:id="idSingleLetter" class="seven-segment">
+      <div class="upper"></div>
+      <div class="lower"></div> 
+    </div>
+    <div class="clear"></div>
+    {{id}}  {{idDecimalLetter}} {{idSingleLetter}} <br>
     <button @click="idLetterIncrease">Gól</button>
+    <button @click="idLetterDecrease">Mégse</button>
+    <button @click="idLetterBase">Alaphelyzet</button>
+    <button @click="idLetterOf">Kikapcsolás</button>
   </div>
 </template>
 
@@ -18,20 +26,59 @@ export default {
   data() {
     return{
       id: '0',
-      idLetter: 'null'
+      idDecimalLetter: 'null',
+      idSingleLetter: 'zero'
     }
   },
   methods: {
     idLetterIncrease: function(){
-      this.id++;
-      this.idLetter = this.idWithLetter(this.id)
+      if(this.id<99){
+        this.id++;
+        this.idSingleLetter = this.idWithSingleLetter(this.id)
+        this.idDecimalLetter = this.idWithDecimalLetted(this.id)
+      }
     },
-    idWithLetter: function(id){
-      if(id =='') return 'null'
-      if(id == 0) return 'zero'
-      if(id == 1) return 'one'
-      if(id == 2) return 'two'
-      if(id == 3) return 'three'
+    idLetterDecrease: function(){
+      if(this.id>0){
+        this.id--;
+        this.idSingleLetter = this.idWithSingleLetter(this.id)
+        this.idDecimalLetter = this.idWithDecimalLetted(this.id)
+      }
+    },
+    idLetterBase: function(){
+      this.id=0;
+      this.idSingleLetter = 'zero'
+      this.idDecimalLetter = 'null'
+    },
+    idLetterOf: function(){
+      this.idSingleLetter = 'null'
+      this.idDecimalLetter = 'null'
+    },
+    idWithSingleLetter: function(id){
+      if(id == -1) return 'null'
+      if(id % 10 == 0) return 'zero'
+      if(id % 10 == 1) return 'one'
+      if(id % 10 == 2) return 'two'
+      if(id % 10 == 3) return 'three'
+      if(id % 10 == 4) return 'four'
+      if(id % 10 == 5) return 'five'
+      if(id % 10 == 6) return 'six'
+      if(id % 10 == 7) return 'seven'
+      if(id % 10 == 8) return 'eight'
+      if(id % 10 == 9) return 'nine'
+    },
+    idWithDecimalLetted : function(id){
+      if(id == -1) return 'null'
+      if(~~(id / 10) == 0) return 'null'
+      if(~~(id / 10) == 1) return 'one'
+      if(~~(id / 10) == 2) return 'two'
+      if(~~(id / 10) == 3) return 'three'
+      if(~~(id / 10) == 4) return 'four'
+      if(~~(id / 10) == 5) return 'five'
+      if(~~(id / 10) == 6) return 'six'
+      if(~~(id / 10) == 7) return 'seven'
+      if(~~(id / 10) == 8) return 'eight'
+      if(~~(id / 10) == 9) return 'nine'
     }
   }
 }
@@ -40,12 +87,32 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .seven-segment{
-  background-color: grey;
+  background-color: black;
   width: 100px;
   height: 200px;
-  margin-bottom: 100px
+  margin-bottom: 100px;
+  float: left;
+}
+.clear {
+    clear:both;
 }
 #null .upper{
+  border-top: 10px dotted #333333;
+  border-right: 10px dotted #333333;
+  border-left: 10px dotted #333333;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+#null .lower{
+  border-top: 10px dotted #333333;
+  border-right: 10px dotted #333333;
+  border-bottom: 10px dotted #333333;
+  border-left: 10px dotted #333333;
+  width: 80px;
+  height: 80px;
+}
+#zero .upper{
   border-top: 10px dotted lime;
   border-right: 10px dotted lime;
   border-left: 10px dotted lime;
@@ -53,8 +120,8 @@ export default {
   height: 80px;
   margin-bottom: 10px;
 }
-#null .lower{
-  border-top: 10px dotted lime;
+#zero .lower{
+  border-top: 10px dotted #333333;
   border-right: 10px dotted lime;
   border-bottom: 10px dotted lime;
   border-left: 10px dotted lime;
@@ -62,50 +129,146 @@ export default {
   height: 80px;
 }
 #one .upper{
+  border-top: 10px dotted #333333;
   border-right: 10px dotted lime;
+  border-left: 10px dotted #333333;
   width: 80px;
   height: 80px;
-  padding-top: 10px;
   margin-bottom: 10px;
-  margin-left: 10px;
 }
 #one .lower{
+  border-top: 10px dotted #333333;
   border-right: 10px dotted lime;
+  border-bottom: 10px dotted #333333;
+  border-left: 10px dotted #333333;
   width: 80px;
   height: 80px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-left: 10px;
 }
 #two .upper{
   border-top: 10px dotted lime;
   border-right: 10px dotted lime;
+  border-left: 10px dotted #333333;
   width: 80px;
   height: 80px;
   margin-bottom: 10px;
-  margin-left: 10px;
 }
 #two .lower{
   border-top: 10px dotted lime;
+  border-right: 10px dotted #333333;
   border-bottom: 10px dotted lime;
   border-left: 10px dotted lime;
   width: 80px;
   height: 80px;
-  margin-right: 10px;
 }
 #three .upper{
   border-top: 10px dotted lime;
   border-right: 10px dotted lime;
-  border-bottom: 10px dotted transparent;
-  border-left: 10px dotted transparent;
+  border-left: 10px dotted #333333;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px
+}
+#three .lower{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-bottom: 10px dotted lime;
+  border-left: 10px dotted #333333;
   width: 80px;
   height: 80px;
 }
-#three .lower{
-  border-top: 10px solid lime;
-  border-bottom: 10px solid lime;
-  border-right: 10px solid lime;
-  border-left: 10px solid transparent;
+#four .upper{
+  border-top: 10px dotted #333333;
+  border-right: 10px dotted lime;
+  border-left: 10px dotted lime;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+#four .lower{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-bottom: 10px dotted #333333;
+  border-left: 10px dotted #333333;
+  width: 80px;
+  height: 80px;
+}
+#five .upper{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted #333333;
+  border-left: 10px dotted lime;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+#five .lower{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-bottom: 10px dotted lime;
+  border-left: 10px dotted #333333;
+  width: 80px;
+  height: 80px;
+}
+#six .upper{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted #333333;
+  border-left: 10px dotted lime;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+#six .lower{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-bottom: 10px dotted lime;
+  border-left: 10px dotted lime;
+  width: 80px;
+  height: 80px;
+}
+#seven .upper{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-left: 10px dotted #333333;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+#seven .lower{
+  border-top: 10px dotted #333333;
+  border-right: 10px dotted lime;
+  border-bottom: 10px dotted #333333;
+  border-left: 10px dotted #333333;
+  width: 80px;
+  height: 80px;
+}
+#eight .upper{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-left: 10px dotted lime;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+#eight .lower{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-bottom: 10px dotted lime;
+  border-left: 10px dotted lime;
+  width: 80px;
+  height: 80px;
+}
+#nine .upper{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-left: 10px dotted lime;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+#nine .lower{
+  border-top: 10px dotted lime;
+  border-right: 10px dotted lime;
+  border-bottom: 10px dotted #333333;
+  border-left: 10px dotted #333333;
   width: 80px;
   height: 80px;
 }
