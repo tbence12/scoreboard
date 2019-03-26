@@ -10,10 +10,12 @@
     </div>
     <div class="clear"></div>
     {{id}}  {{idDecimalLetter}} {{idSingleLetter}} <br>
+
     <button @click="idLetterIncrease">Gól</button>
-    <button @click="idLetterDecrease">Mégse</button>
+    <button @click="idLetterDecrease">Mégse</button><br>
     <button @click="idLetterBase">Alaphelyzet</button>
     <button @click="idLetterOf">Kikapcsolás</button>
+    
   </div>
 </template>
 
@@ -92,6 +94,7 @@ export default {
   height: 200px;
   margin-bottom: 100px;
   float: left;
+  padding: 10px;
 }
 .clear {
     clear:both;
