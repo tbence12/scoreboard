@@ -1,5 +1,6 @@
 <template>
   <div>
+  <div id="team-name"> {{teamName}} </div>
     <div v-bind:id="idDecimalLetter" class="seven-segment">
       <div class="upper"></div>
       <div class="lower"></div> 
@@ -9,28 +10,37 @@
       <div class="lower"></div> 
     </div>
     <div class="clear"></div>
-    {{id}}  {{idDecimalLetter}} {{idSingleLetter}} <br>
+    <span v-show="!operate">Write team names</span>
 
-    <button @click="idLetterIncrease">Gól</button>
-    <button @click="idLetterDecrease">Mégse</button><br>
-    <button @click="idLetterBase">Alaphelyzet</button>
-    <button @click="idLetterOf">Kikapcsolás</button>
+    <button v-show="operate" @click="idLetterIncrease">Gooool</button>
+    <button v-show="operate" @click="idLetterDecrease">Cancel</button>
     
   </div>
 </template>
 
 <script>
+import { bus } from '../main'
+
 export default {
   name: 'SevenSegmentDisplay',
   props: {
-    
+    teamName: String,
+    operate: Boolean
   },
   data() {
     return{
       id: '0',
       idDecimalLetter: 'null',
-      idSingleLetter: 'zero'
+      idSingleLetter: 'null'
     }
+  },
+  created(){
+    bus.$on('goBase', () => {
+      this.idLetterBase();
+    });
+    bus.$on('backOff', () => {
+      this.idLetterOff();
+    })
   },
   methods: {
     idLetterIncrease: function(){
@@ -52,7 +62,7 @@ export default {
       this.idSingleLetter = 'zero'
       this.idDecimalLetter = 'null'
     },
-    idLetterOf: function(){
+    idLetterOff: function(){
       this.idSingleLetter = 'null'
       this.idDecimalLetter = 'null'
     },
@@ -88,16 +98,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#team-name{
+   background-color: black;
+   color: red;
+   font-size: 25px;
+   border: 3px solid gray;
+   height: 29px;
+}
 .seven-segment{
   background-color: black;
   width: 100px;
   height: 200px;
-  margin-bottom: 100px;
+  margin-bottom: 70px;
   float: left;
   padding: 10px;
 }
 .clear {
     clear:both;
+}
+span{
+  color: red;
 }
 #null .upper{
   border-top: 10px dotted #333333;
