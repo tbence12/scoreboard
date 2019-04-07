@@ -34,6 +34,11 @@ export default {
       idSingleLetter: 'null'
     }
   },
+  watch: {
+    id: function(){
+      this.sendId();
+    }
+  },
   created(){
     bus.$on('goBase', () => {
       this.idLetterBase();
@@ -43,6 +48,9 @@ export default {
     })
   },
   methods: {
+    sendId: function(){
+      this.$emit('sendScore', this.id);
+    },
     idLetterIncrease: function(){
       if(this.id<99){
         this.id++;
